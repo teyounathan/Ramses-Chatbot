@@ -205,8 +205,12 @@ function typeWriter(text, element, delay = 50) {
         // Remove the blinking cursor after typing is done
         element.classList.remove('typing-animation');
         element.style.borderRight = 'none'; // Remove the cursor effect
+        document.getElementById('user-input').disabled = false
+        document.getElementById('send-button').disabled = false;
       }
+      
     }, delay);
+
   }
 
     async function generateResponse(input) {
@@ -237,10 +241,7 @@ function typeWriter(text, element, delay = 50) {
     } catch (error) {
         return 'Sorry, something went wrong. Please try again later.';
     }
-    finally{
-        document.getElementById('user-input').disabled = false
-        document.getElementById('send-button').disabled = false;
-        }
+
     }
 
 

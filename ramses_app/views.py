@@ -34,10 +34,10 @@ def get_data(request):
     http_proxy = 'http://10.252.34.55:3128'
     https_proxy = 'http://10.252.34.55:3128'
    
-    # if http_proxy:
-    #     os.environ['http_proxy'] = http_proxy
-    # if https_proxy:
-    #     os.environ['https_proxy'] = https_proxy
+    if http_proxy:
+        os.environ['http_proxy'] = http_proxy
+    if https_proxy:
+        os.environ['https_proxy'] = https_proxy
        
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
@@ -79,17 +79,17 @@ def get_data(request):
                 messages=chat_prompt,    
                 max_tokens=1000,  
                 temperature=0.5,  
-                top_p=0.95,  
-                frequency_penalty=0,  
-                presence_penalty=0,  
+                top_p=0.9,  
+                frequency_penalty=0.4,  
+                presence_penalty=0.4,  
                 stop=None,  
                 stream=False,
                 extra_body={
                 "data_sources": [{
                     "type": "azure_search",
                     "parameters": {
-                    "endpoint": f"{search_endpoint}",
-                    "index_name": f"{search_index}",
+                    "endpoint": f"https://azureaisearchprod.search.windows.net",
+                    "index_name": f"ramses237",
                     "semantic_configuration": "default",
                     "query_type": "semantic",
                     "fields_mapping": {},
