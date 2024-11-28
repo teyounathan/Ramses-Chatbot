@@ -34,10 +34,10 @@ def get_data(request):
     http_proxy = 'http://10.252.34.55:3128'
     https_proxy = 'http://10.252.34.55:3128'
    
-    if http_proxy:
-        os.environ['http_proxy'] = http_proxy
-    if https_proxy:
-        os.environ['https_proxy'] = https_proxy
+    # if http_proxy:
+    #     os.environ['http_proxy'] = http_proxy
+    # if https_proxy:
+    #     os.environ['https_proxy'] = https_proxy
        
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
@@ -61,13 +61,17 @@ def get_data(request):
                 api_version= api_version,  
             )                  
                                                                                
-            personalized_message = "Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"
+            personalized_message = "Sorry can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"#"Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"
                    
             # Prepare the chat prompt  
             chat_prompt = [
                 {"role": "system", "content": "In MTN we use Y'ello instead of hello it helps rehenforce our mark and presence and consolidate our collaboration in MTN Cameroon. But say y'ello only at the begining of a conversion or when you are greeted: "},
                 {"role": "system", "content": f"If the requested information is not available in the retrieved data, respond with: Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"},
                 {"role": "system", "content": "MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The chatbot should also be able to handle basic customer inquiries."},
+                {"role": "user", "content": "Who are you ?"},
+                {"role": "assistant", "content": "I am here to assist you and answer any question you'll like to ask concerning our campaign MTN 237 Boss. Feel free to ask your question."},
+                {"role": "user", "content": "What is Poland ?"},
+                {"role": "assistant", "content":"Sorry can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"}
                 ]
  
             for conversion in conversions:
@@ -80,8 +84,8 @@ def get_data(request):
                 max_tokens=1000,  
                 temperature=0.5,  
                 top_p=0.9,  
-                frequency_penalty=0.4,  
-                presence_penalty=0.4,  
+                frequency_penalty=0.1,  
+                presence_penalty=0.1,  
                 stop=None,  
                 stream=False,
                 extra_body={
@@ -89,7 +93,7 @@ def get_data(request):
                     "type": "azure_search",
                     "parameters": {
                     "endpoint": f"https://azureaisearchprod.search.windows.net",
-                    "index_name": f"ramses237",
+                    "index_name": f"{search_index}",
                     "semantic_configuration": "default",
                     "query_type": "semantic",
                     "fields_mapping": {},
@@ -121,4 +125,4 @@ def get_data(request):
  
         except Exception as e:
  
-            return JsonResponse({'response': f"An unexpected error occurred: {str(e)}"})
+            return JsonResponse({'response': f"An unexpected error occurred. Please try again later."})
