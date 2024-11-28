@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#7m-b)le%77-7ct#8&-&-jxv#(d%tcjozqs2wwxy1di+#x(mhz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['ramses-chatbot.azurewebsites.net', '127.0.0.1', '13.89.172.8']
+ALLOWED_HOSTS = ['ramseschatbot.azurewebsites.net', '127.0.0.1', '13.89.172.23']
 
 
 # Application definition
