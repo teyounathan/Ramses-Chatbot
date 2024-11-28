@@ -12,7 +12,7 @@ def index(request):
     load_dotenv()
     endpoint = os.getenv('endpoint')
 
-    return render(request, 'index.html', {'endpoint': endpoint})
+    return render(request, 'ramses_app/index.html', {'endpoint': endpoint})
 
 def bold_text(text):
     # Replace ** with <b> and </b>
@@ -66,7 +66,7 @@ def get_data(request):
             chat_prompt = [
                 {"role": "system", "content": "In MTN we use Y'ello instead of hello it helps rehenforce our mark and presence and consolidate our collaboration in MTN Cameroon. But say y'ello only at the begining of a conversion or when you are greeted: "},
                 {"role": "system", "content": f"If the requested information is not available in the retrieved data, respond with: Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"},
-                {"role": "system", "content": "MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The chatbot should also be able to handle basic customer inquiries."},
+                {"role": "system", "content": "MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The response should be short and concise, give more details only when requested. The chatbot should also be able to handle basic customer inquiries."},
                 {"role": "user", "content": "Who are you ?"},
                 {"role": "assistant", "content": "I am here to assist you and answer any question you'll like to ask concerning our campaign MTN 237 Boss. Feel free to ask your question."},
                 {"role": "user", "content": "What is Poland ?"},
@@ -99,7 +99,7 @@ def get_data(request):
                     "in_scope": True,
                     "role_information": f"""
                     In MTN we use Y'ello instead of hello it helps rehenforce our mark and presence and consolidate our collaboration in MTN Cameroon. But say y'ello only at the begining of a conversion or when you are greeted.
-                    MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The chatbot should also be able to handle basic customer inquiries.
+                    MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The response should be short and concise, give more details only when requested. The chatbot should also be able to handle basic customer inquiries.
                     If the requested information is not available in the retrieved data, respond with: {personalized_message}.
                     When responding make sure not to provide too much information but when you are asked or when you should do so.
                     If you can't relate the user request to anything answer by saying: {personalized_message}.
