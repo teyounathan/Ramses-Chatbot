@@ -31,8 +31,8 @@ def remove_references(response):
 def get_data(request):
    
     load_dotenv()
-    http_proxy = 'http://10.252.34.55:3128'
-    https_proxy = 'http://10.252.34.55:3128'
+    http_proxy =  os.getenv('proxy')
+    https_proxy =  os.getenv('proxy')
    
     # if http_proxy:
     #     os.environ['http_proxy'] = http_proxy
@@ -43,8 +43,7 @@ def get_data(request):
         data = json.loads(request.body.decode('utf-8'))
         conversions = data.get('conversation')  
         
-        print('-'*10)
-        print(conversions)      
+
         try:
             endpoint = os.getenv('ENDPOINT_URL')
             deployment = os.getenv('DEPLOYMENT_NAME')  
@@ -61,7 +60,7 @@ def get_data(request):
                 api_version= api_version,  
             )                  
                                                                                
-            personalized_message = "Sorry can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"#"Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"
+            personalized_message = "Sorry I can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"#"Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"
                    
             # Prepare the chat prompt  
             chat_prompt = [
@@ -103,6 +102,7 @@ def get_data(request):
                     MTN Cameroon is running a promotional campaign called 'MTN 237 Boss' where 237 Cameroonian subscribers can win utility vehicles. The chatbot should provide information on how to participate, rules, eligibility, and answer frequently asked questions. The tone should be friendly and conversational. The chatbot should also be able to handle basic customer inquiries.
                     If the requested information is not available in the retrieved data, respond with: {personalized_message}.
                     When responding make sure not to provide too much information but when you are asked or when you should do so.
+                    If you can't relate the user request to anything answer by saying: {personalized_message}.
                     """,
                     "filter": None,
                     "strictness": 3,
@@ -115,12 +115,11 @@ def get_data(request):
                 }]
                 }  
             )
+            
+            # if response.lower().startswith("The information is not found in the".lower()):
+
             response = bold_text(remove_references(completion.choices[0].message.content))
-            print ("+"*100)
-            print(completion.choices[0].message.content+"\n")
-            print("-"*100)
-            print(response)
-           
+            response_language = completion.choices[0]
             return JsonResponse({'response': response})
  
         except Exception as e:

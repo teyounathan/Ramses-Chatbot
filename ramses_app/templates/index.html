@@ -271,7 +271,6 @@ function typeWriter(text, element, delay = 50) {
     document.getElementById('send-button').disabled = true;
     event.preventDefault();
     const endpoint = '{{endpoint}}'+'/chat/'; // Replace with your chatbot endpoint URL
-    console.log(endpoint)
     const payload = {
         conversation: conversationHistory
     };
