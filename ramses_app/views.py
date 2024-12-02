@@ -6,8 +6,11 @@ from django.http import HttpResponse, JsonResponse
 from openai import AzureOpenAI
 import os
 from dotenv import load_dotenv
+from ramses_app.models import Message
+import logging
 
-# Create your views here.
+
+
 def index(request):
     load_dotenv()
     endpoint = os.getenv('endpoint')
@@ -29,7 +32,8 @@ def remove_references(response):
  
 @csrf_exempt
 def get_data(request):
-   
+    logger = logging.getLogger('chatbot')
+
     load_dotenv()
     http_proxy =  os.getenv('proxy')
     https_proxy =  os.getenv('proxy')
@@ -42,8 +46,12 @@ def get_data(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         conversions = data.get('conversation')  
-        
+        userMessage = conversions[len(conversions)-1]['content']
 
+        message = Message(message=userMessage)
+        message.save()
+        logger.info(f'Received message: {userMessage}')
+        
         try:
             endpoint = os.getenv('ENDPOINT_URL')
             deployment = os.getenv('DEPLOYMENT_NAME')  
@@ -61,7 +69,8 @@ def get_data(request):
             )                  
                                                                                
             personalized_message = "Sorry I can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"#"Y'ello! It seems I couldn't find the information you're looking for in our current dataset. Could you please try rephrasing your query or ask about a different topic? I'm here to help!"
-                   
+            
+
             # Prepare the chat prompt  
             chat_prompt = [
                 {"role": "system", "content": "In MTN we use Y'ello instead of hello it helps rehenforce our mark and presence and consolidate our collaboration in MTN Cameroon. But say y'ello only at the begining of a conversion or when you are greeted: "},
@@ -117,11 +126,16 @@ def get_data(request):
             )
             
             # if response.lower().startswith("The information is not found in the".lower()):
+            
+            # Get the logger
+            logger = logging.getLogger('chatbot')
 
             response = bold_text(remove_references(completion.choices[0].message.content))
-            response_language = completion.choices[0]
+            logger.info(f'Sending response: {response}')
             return JsonResponse({'response': response})
  
         except Exception as e:
- 
+            logger.info(f'An unexpected error occurred. Please try again later. {str(e)}')
+            # Get the logger
+            logger = logging.getLogger('chatbot')
             return JsonResponse({'response': f"An unexpected error occurred. Please try again later."})
