@@ -125,11 +125,6 @@ def get_data(request):
                 }  
             )
             
-            # if response.lower().startswith("The information is not found in the".lower()):
-            
-            # Get the logger
-            logger = logging.getLogger('chatbot')
-
             response = bold_text(remove_references(completion.choices[0].message.content))
             logger.info(f'Sending response: {response}')
             return JsonResponse({'response': response})
@@ -137,5 +132,4 @@ def get_data(request):
         except Exception as e:
             logger.info(f'An unexpected error occurred. Please try again later. {str(e)}')
             # Get the logger
-            logger = logging.getLogger('chatbot')
             return JsonResponse({'response': f"An unexpected error occurred. Please try again later."})
