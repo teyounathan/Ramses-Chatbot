@@ -79,7 +79,7 @@ def get_data(request):
                 {"role": "user", "content": "Who are you ?"},
                 {"role": "assistant", "content": "I am here to assist you and answer any question you'll like to ask concerning our campaign MTN 237 Boss. Feel free to ask your question."},
                 {"role": "user", "content": "What is Poland ?"},
-                {"role": "assistant", "content":"Sorry can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaig ?"}
+                {"role": "assistant", "content":"Sorry can't relate this question with our promotional campaign. Can you ask a question that's related to our 237 MTN Boss campaign ?"}
                 ]
  
             for conversion in conversions:
