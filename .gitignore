@@ -2,5 +2,5 @@ __pycache__/
 .vscode/
 .env
 myenv/
-
+.venv/
 db.sqlite3
